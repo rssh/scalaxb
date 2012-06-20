@@ -114,7 +114,7 @@ object GeneralUsage {
     val obj = fromXML[SingularBuiltInTypeTest](subject)
     def check(obj: Any) = obj match {
         case SingularBuiltInTypeTest(
-          SingularBuiltInTypeTestSequence1("foo", false, Int_(1), 1.0F, 1.0, du, dt, t, d, ym),
+          SingularBuiltInTypeTestSequence("foo", false, Int_(1), 1.0F, 1.0, du, dt, t, d, ym),
           SingularBuiltInTypeTestSequence2(y, md, dd, m,
             HexBinary(15), Base64Binary('A', 'B', 'C', 'D', 'E', 'F', 'G'),
             uri, qname, notaton, "foo"),

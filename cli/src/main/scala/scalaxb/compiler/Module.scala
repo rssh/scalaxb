@@ -211,9 +211,9 @@ trait Module {
   }
 
   def processNode(input: Node, packageName: String): List[String] =
-    processNode(input, Config(packageNames = Map(None -> Some(packageName))))
+    processNodes(Seq(input), Config(packageNames = Map(None -> Some(packageName))))
 
-  def processNode(input: Node, config: Config): List[String] = {
+  def processNodes(inputs: Seq[Node], config: Config): List[String] = {
     implicit val nodeReader = new CanBeRawSchema[Node, RawSchema] {
       override def toRawSchema(value: Node) = nodeToRawSchema(value)
       override def toURI(value: Node) = new URI("file://C:/temp.txt")
@@ -224,7 +224,7 @@ trait Module {
       override def newInstance(packageName: Option[String], fileName: String) = new java.io.StringWriter
     }
 
-    processReaders(Seq(input), config) map {_.toString}
+    processReaders(inputs, config) map {_.toString}
   }
 
   def headerSnippet(pkg: Option[String]): Snippet =

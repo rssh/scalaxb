@@ -122,7 +122,7 @@ object Builds extends Build {
   
   def testDeps(sv: String) = sv match {
     case "2.8.1" =>   Seq("org.specs2" %% "specs2" % "1.5" % "test")
-    case _ => Seq("org.specs2" %% "specs2" % "1.8.2" % "test")
+    case _ => Seq("org.specs2" %% "specs2" % "1.11" % "test")
   }
 
   lazy val root = Project("root", file("."),

@@ -275,23 +275,23 @@ trait Module {
 
     def toFileNamePart[From](file: From)(implicit ev: CanBeRawSchema[From, RawSchema]): String =
       """([.]\w+)$""".r.replaceFirstIn(new File(ev.toURI(file).getPath).getName, "")
-
-    def processImportables[A](xs: List[(Importable, A)])(implicit ev: CanBeRawSchema[A, RawSchema]) = xs flatMap {
-      case (importable, file) =>
-        processSchema(schemas(importable), context, config)
-        generate(schemas(importable), toFileNamePart(file), context, config) map { case (pkg, snippet, part) =>
-          snippets += snippet
-          val output = evTo.newInstance(pkg, part + ".scala")
-          val out = evTo.toWriter(output)
-          try {
-            printNodes(snippet.definition, out)
-          } finally {
-            out.flush()
-            out.close()
+    
+    def processImportables[A](xs: List[(Importable, A)])(implicit ev: CanBeRawSchema[A, RawSchema]) =
+      xs flatMap {
+        case (importable, file) =>
+          generate(schemas(importable), toFileNamePart(file), context, config) map { case (pkg, snippet, part) =>
+            snippets += snippet
+            val output = evTo.newInstance(pkg, part + ".scala")
+            val out = evTo.toWriter(output)
+            try {
+              printNodes(snippet.definition, out)
+            } finally {
+              out.flush()
+              out.close()
+            }
+            output
           }
-          output
-        }
-    }
+      }
 
     def processProtocol = {
       val pkg = config.protocolPackageName match {
@@ -353,6 +353,10 @@ trait Module {
     addMissingFiles()
     processUnnamedIncludes()
     processContext(context, schemas.valuesIterator.toSeq, config)
+    schemas.valuesIterator.toSeq foreach { schema =>
+      processSchema(schema, context, config)
+    }
+
     processImportables(importables.toList) :::
     processImportables(additionalImportables.toList) :::
     List(processProtocol) :::

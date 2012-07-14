@@ -99,7 +99,7 @@ object Builds extends Build {
     libraryDependencies <++= scalaVersion { sv =>
       testDeps(sv) ++
       Seq(
-        "net.databinder" %% "dispatch-http" % "0.8.5" % "test",
+        "net.databinder" % "dispatch-http_2.9.1" % "0.8.5" % "test",
         "org.scala-lang" % "scala-compiler" % sv
       )
     }

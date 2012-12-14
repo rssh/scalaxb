@@ -7,7 +7,7 @@ object Builds extends Build {
   import sbtscalashim.Plugin._
 
   lazy val buildSettings = Defaults.defaultSettings ++ customLsSettings ++ Seq(
-    version := "1.0.0-RC3",
+    version := "1.0.0-RC3-boolean-fix",
     organization := "org.scalaxb",
     homepage := Some(url("http://scalaxb.org")),
     licenses := Seq("MIT License" -> url("https://github.com/eed3si9n/scalaxb/blob/master/LICENSE")),
@@ -115,7 +115,7 @@ object Builds extends Build {
   lazy val pluginSettings = buildSettings ++ Seq(
     sbtPlugin := true,
     description in lskeys.lsync := """sbt plugin to run scalaxb""",
-    crossScalaVersions := Seq("2.9.2"),
+    crossScalaVersions := Seq("2.9.2","2.9.1"),
     publishMavenStyle := true,
     crossSbtVersions := Seq("0.11.2", "0.11.3", "0.12")
   ) // ++
